@@ -1,5 +1,5 @@
 /*!
- * Tuna - Common sense Javascript object introspection
+ * Tuna - Common sense JavaScript object introspection
  * Copyright(c) 2011 Victor Castell <victorcoder@gmail.com>
  * MIT Licensed
  */
