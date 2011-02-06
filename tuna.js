@@ -18,8 +18,6 @@ var Tuna = {
             var name = null;
             var member = {};
             
-            //console.log("---" + i);
-            
             if (typeof object[i] === "function") {
                 def = Tuna.functionize(object[i]);
             }
@@ -28,8 +26,6 @@ var Tuna = {
             member.name = (def == null) ? i : def;
             
             if (member.type === "Object") {
-                //console.log("---------");
-                //console.log(membera);
                 member.members = Tuna.describe(object[i]);
             }
             
