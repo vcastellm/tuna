@@ -1,0 +1,10 @@
+Tuna is a tool to inspect JavaScript objects. It is a tool to digg in the details of JavaScript object instances that tries to define an standard way to visualize the object hierarchy. 
+
+The motivation for writing this library is to extend the core JavaScript object inspection capabilities and define a standard way of looking in to instances inspired by AS3 describeType() function. Contrary to describeType instead of returning XML object definition it is based on JavaScript objects or JSON objects.
+
+Use
+----------------
+
+Include the main script in your page or require it in your Node script and use
+Tuna.describe(object);
+
