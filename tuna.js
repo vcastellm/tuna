@@ -13,27 +13,27 @@ var Tuna = {
         description.name = 
             (typeof object === "function") ? Tuna.functionize(object) : Tuna.typify(object);
         
-        for (i in object) {
+        for (var i in object) {
             var def = null;
             var name = null;
+            var member = {};
+            
+            //console.log("---" + i);
             
             if (typeof object[i] === "function") {
                 def = Tuna.functionize(object[i]);
             }
             
-            var type = Tuna.typify(object[i]);
-
-            if (type === "Object") {
-                var member = Tuna.describe(object[i]);
-                members.push(member);
-            } else {
-                name = (def == null) ? i : def;
+            member.type = Tuna.typify(object[i]);
+            member.name = (def == null) ? i : def;
+            
+            if (member.type === "Object") {
+                //console.log("---------");
+                //console.log(membera);
+                member.members = Tuna.describe(object[i]);
             }
             
-            members.push({
-              "name": name,
-              "type": type
-            });
+            members.push(member);
         }
         
         description.members = members;
@@ -47,7 +47,7 @@ var Tuna = {
         //Check for primitive
         var primitives = ["string", "number", "boolean", "null", "undefined"];
         
-        for (i in primitives) {
+        for (var i in primitives) {
             if (typeof object == primitives[i]) {
                 type = primitives[i].charAt(0).toUpperCase() + primitives[i].substr(1);
                 break;
@@ -56,7 +56,7 @@ var Tuna = {
         
         var coreObjects = ["Boolean", "Number", "String", "Array", "Function", "RegExp", "Date", "Object"];
         if (type == null) {
-            for (i in coreObjects) {
+            for (var i in coreObjects) {
                 if(object instanceof eval(coreObjects[i])) {
                     type = coreObjects[i];
                     break;
@@ -74,29 +74,4 @@ var Tuna = {
         return (def != null) ?  def[0].replace(/\s/, "") : funk.name;
     }
 };
-
-//Samples
-var foo = {
-    "bar": "foobar",
-    "dummy": function(paramX) {
-        var k = 1;
-        var x = 0;
-        
-        return k + x;
-    },
-    "isBool": true,
-    "nested": {
-        "attr1": "str",
-        "attr2": true,
-        "attr3": function() {},
-        "attr4": function(param1) {},
-        "attr5": {
-            "nested2": "str"
-        }
-    }
-};
-
-function algo(param1) {}
-
-console.log(Tuna.describe(foo));
 
