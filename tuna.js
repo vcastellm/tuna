@@ -1,43 +1,32 @@
 /*!
- * Tuna - Common sense JavaScript object introspection
- * Copyright(c) 2011 Victor Castell <victorcoder@gmail.com>
- * MIT Licensed
- */
- 
-var Tuna = {
-    describe: function(object) {
-        var description = {};
-        var members = [];
-        
-        description.type = Tuna.typify(object);
-        description.name = 
-            (typeof object === "function") ? Tuna.functionize(object) : Tuna.typify(object);
-        
-        for (var i in object) {
-            var def = null;
-            var name = null;
-            var member = {};
-            
-            if (typeof object[i] === "function") {
-                def = Tuna.functionize(object[i]);
-            }
-            
-            member.type = Tuna.typify(object[i]);
-            member.name = (def == null) ? i : def;
-            
-            if (member.type === "Object") {
-                member.members = Tuna.describe(object[i]);
-            }
-            
-            members.push(member);
-        }
-        
-        description.members = members;
-        
-        return description;
-    },
+    tuna.js
+    Tuna - Common sense JavaScript object introspection
+    Copyright(c) 2011 Victor Castell <victorcoder@gmail.com>
+    MIT Licensed
+
+    Public Domain
+
+    No warranty expressed or implied. Use at your own risk.
+
+    USE YOUR OWN COPY. IT IS EXTREMELY UNWISE TO LOAD CODE FROM SERVERS YOU DO
+    NOT CONTROL.
     
-    typify: function(object) {
+    Usage
+    
+    Tuna.describe(object);
+    
+    See example files for mode in depth usage.
+    
+    You can use the other methods but they are not of much utility outside the 
+    scope of the class.
+*/
+
+// Wrap in a closure for hiding methods and avoid global variables.
+var Tuna = (function() {
+    // For interenal use.
+    // Gets a JS object instance and returns it's type. It knows if it's
+    // a primitive JS type or a Object type.
+    function typify(object) {
         var type = null;
         
         //Check for primitive
@@ -61,13 +50,52 @@ var Tuna = {
         }
         
         return type;
-    },
+    }
     
-    functionize: function(funk) {
+    // For internal use.
+    // Gets a function object as an input and tries to return 
+    // the function notation.
+    function functionize(funk) {
         var def = null;
         
         def = funk.toString().match(/function\s\(.*\)/);
         return (def != null) ?  def[0].replace(/\s/, "") : funk.name;
     }
-};
-
+    
+    return {
+        // Gets any JS object as input and traverse it's methods and 
+        // properties to form a new object with an outline of the object
+        // structure.
+        describe: function(object) {
+            var description = {};
+            var members = [];
+        
+            description.type = typify(object);
+            description.name = 
+                (typeof object === "function") ? functionize(object) : typify(object);
+        
+            for (var i in object) {
+                var def = null;
+                var name = null;
+                var member = {};
+            
+                if (typeof object[i] === "function") {
+                    def = functionize(object[i]);
+                }
+            
+                member.type = typify(object[i]);
+                member.name = (def == null) ? i : def;
+            
+                if (member.type === "Object") {
+                    member.members = Tuna.describe(object[i]);
+                }
+            
+                members.push(member);
+            }
+        
+            description.members = members;
+        
+            return description;
+        }
+    }
+})();
