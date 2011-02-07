@@ -1,3 +1,8 @@
+require.paths.unshift('.');
+var sys = require("sys");
+
+var Tuna = require("tuna").Tuna;
+
 //Samples
 var foo = {
     "bar": "foobar",
@@ -19,6 +24,4 @@ var foo = {
     }
 };
 
-function algo(param1) {}
-
-console.log(Tuna.describe(foo));
+console.log(Tuna.describe(foo), true, null);

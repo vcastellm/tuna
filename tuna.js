@@ -19,6 +19,9 @@
     
     You can use the other methods but they are not of much utility outside the 
     scope of the class.
+    
+    Some code borrowed from:
+    https://github.com/ry/node/blob/master/lib/util.js
 */
 
 // Wrap in a closure for hiding methods and avoid global variables.
@@ -99,3 +102,9 @@ var Tuna = (function() {
         }
     }
 })();
+
+try {
+    exports.Tuna = Tuna;
+} catch(error) {
+    
+}
